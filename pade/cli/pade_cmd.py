@@ -107,7 +107,7 @@ def main(config):
     from pade.core import new_ams
 
     if pade_ams is None:
-        commands = 'python {} {} {} {}'.format(new_ams.__file__,
+        commands = 'python {} {} {} {}'.format("'"+new_ams.__file__+"'",
                                                session['username'],
                                                session['email'],
                                                session['password'])
@@ -116,7 +116,7 @@ def main(config):
         processes.append(p)
     else:
         if pade_ams['launch']:
-            commands = 'python {} {} {} {}'.format(new_ams.__file__,
+            commands = 'python {} {} {} {}'.format("'"+new_ams.__file__+"'",
                                                    session['username'],
                                                    session['email'],
                                                    session['password'])
@@ -133,14 +133,14 @@ def main(config):
 
     if pade_sniffer is None:
         time.sleep(2.0)
-        commands = 'python {}'.format(sniffer.__file__)
+        commands = 'python {}'.format("'"+sniffer.__file__+"'")
         commands = shlex.split(commands)
         p = subprocess.Popen(commands, stdin=subprocess.PIPE)
         processes.append(p)
     else:
         if pade_sniffer['active']:
             time.sleep(2.0)
-            commands = 'python {}'.format(sniffer.__file__)
+            commands = 'python {}'.format("'"+sniffer.__file__+"'")
             commands = shlex.split(commands)
             p = subprocess.Popen(commands, stdin=subprocess.PIPE)
             processes.append(p)   
