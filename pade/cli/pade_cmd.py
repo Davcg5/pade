@@ -152,9 +152,10 @@ def main(config):
     # -------------------------------------------------------------
     time.sleep(3.0)
     port_ = port
+    machine_service = config.get('machine_service')
     for agent_file in agent_files:
         for i in range(num):
-            commands = 'python {} {}'.format(agent_file, port_)
+            commands = 'python {} {} {}'.format(agent_file, port_, "'"+machine_service+"'")
             commands = shlex.split(commands)
             p = subprocess.Popen(commands, stdin=subprocess.PIPE)
             processes.append(p)
@@ -186,7 +187,8 @@ def cmd():
 @click.option('--username', prompt='please enter a username', default='pade_user')
 @click.option('--password', prompt=True, hide_input=True, default='12345')
 @click.option('--config_file', is_eager=True, expose_value=False, callback=run_config_file)
-def start_runtime(num, agent_files, port, pade_ams, pade_web, pade_sniffer, username, password):
+@click.option('--machine_service', default='')
+def start_runtime(num, agent_files, port, pade_ams, pade_web, pade_sniffer, username, password, machine_service):
     config = dict()
     config['agent_files'] = agent_files
     config['num'] = num
@@ -207,7 +209,7 @@ def start_runtime(num, agent_files, port, pade_ams, pade_web, pade_sniffer, user
     config['pade_web']['active'] = pade_web
     config['pade_web']['host'] = 'localhost'
     config['pade_web']['port'] = 5000
-
+    config['machine_service'] = machine_service
     main(config)
 
 @cmd.command()
