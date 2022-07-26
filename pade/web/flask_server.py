@@ -5,11 +5,11 @@ from flask_bootstrap import Bootstrap
 from flask_login import LoginManager, login_required, login_user, logout_user
 from flask_wtf import Form
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import Required, Email, Length
+from wtforms.validators import DataRequired, Email, Length
 
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
-from werkzeug import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -107,9 +107,9 @@ class Message(db.Model):
         return 'Message %s' % self.id
 
 class LoginForm(Form):
-    email = StringField('Email', validators=[Required(), Length(1, 64),
+    email = StringField('Email', validators=[DataRequired(), Length(1, 64),
                                  Email()])
-    password = PasswordField('Password', validators=[Required()])
+    password = PasswordField('Password', validators=[DataRequired()])
     remember_me = BooleanField('Keep me logged in')
     submit = SubmitField('Log In')
 
